@@ -10,12 +10,12 @@ private:
     /**
      * @brief the row count of the matrix.
      */
-    int rowCount;
+    unsigned rowCount;
 
     /**
      * @brief the column count of the matrix.
      */
-    int columnCount;
+    unsigned columnCount;
 
     /**
      * @brief the values of the matrix.
@@ -23,23 +23,23 @@ private:
     MatrixValues matrixValues;
 public:
     Matrix();
-    Matrix(int row, int column, MatrixValues values);
+    Matrix(unsigned row, unsigned column, MatrixValues values);
     ~Matrix();
 
     // Getters
-    int getRowCount() const;
-    int getColumnCount() const;
+    unsigned getRowCount() const;
+    unsigned getColumnCount() const;
     MatrixValues getMatrixValues() const;
-    std::vector<int> getRow(int row) const;
-    std::vector<int> getColumn(int column) const;
-    std::vector<int>& operator[](int);
+    std::vector<int> getRow(unsigned row) const;
+    std::vector<int> getColumn(unsigned column) const;
+    std::vector<int>& operator[](unsigned index);
 
     // Setters
-    void setRowCount(int row);
-    void setColumnCount(int column);
+    void setRowCount(unsigned row);
+    void setColumnCount(unsigned column);
     void setMatrixValues(MatrixValues values);
-    void setRow(int rowIndex, std::vector<int> values);
-    void setColumn(int columnIndex, std::vector<int> values);
+    void setRow(unsigned rowIndex, std::vector<int> values);
+    void setColumn(unsigned columnIndex, std::vector<int> values);
 };
 
 #endif

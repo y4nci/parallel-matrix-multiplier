@@ -6,7 +6,7 @@ Matrix::Matrix() {
     this->matrixValues = {};
 }
 
-Matrix::Matrix(int row, int column, MatrixValues values) {
+Matrix::Matrix(unsigned row, unsigned column, MatrixValues values) {
     this->rowCount = row;
     this->columnCount = column;
     this->matrixValues = values;
@@ -16,11 +16,11 @@ Matrix::~Matrix() {
     this->matrixValues.clear();
 }
 
-int Matrix::getRowCount() const {
+unsigned Matrix::getRowCount() const {
     return this->rowCount;
 }
 
-int Matrix::getColumnCount() const {
+unsigned Matrix::getColumnCount() const {
     return this->columnCount;
 }
 
@@ -28,11 +28,11 @@ MatrixValues Matrix::getMatrixValues() const {
     return this->matrixValues;
 }
 
-std::vector<int> Matrix::getRow(int row) const {
+std::vector<int> Matrix::getRow(unsigned row) const {
     return this->matrixValues[row];
 }
 
-std::vector<int> Matrix::getColumn(int column) const {
+std::vector<int> Matrix::getColumn(unsigned column) const {
     std::vector<int> columnValues;
 
     for (int i = 0; i < this->rowCount; i++) {
@@ -42,15 +42,15 @@ std::vector<int> Matrix::getColumn(int column) const {
     return columnValues;
 }
 
-std::vector<int>& Matrix::operator[](int index) {
+std::vector<int>& Matrix::operator[](unsigned index) {
     return this->matrixValues[index];
 }
 
-void Matrix::setRowCount(int row) {
+void Matrix::setRowCount(unsigned row) {
     this->rowCount = row;
 }
 
-void Matrix::setColumnCount(int column) {
+void Matrix::setColumnCount(unsigned column) {
     this->columnCount = column;
 }
 
@@ -58,11 +58,11 @@ void Matrix::setMatrixValues(MatrixValues values) {
     this->matrixValues = values;
 }
 
-void Matrix::setRow(int rowIndex, std::vector<int> values) {
+void Matrix::setRow(unsigned rowIndex, std::vector<int> values) {
     this->matrixValues[rowIndex] = values;
 }
 
-void Matrix::setColumn(int columnIndex, std::vector<int> values) {
+void Matrix::setColumn(unsigned columnIndex, std::vector<int> values) {
     for (int i = 0; i < this->rowCount; i++) {
         this->matrixValues[i][columnIndex] = values[i];
     }
