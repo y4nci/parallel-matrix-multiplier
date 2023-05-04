@@ -5,6 +5,7 @@
 # Project related
 build/
 dist/
+cmake-build-debug/
 
 # Logs
 logs/
