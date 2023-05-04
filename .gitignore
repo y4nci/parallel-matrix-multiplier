@@ -1,0 +1,19 @@
+# IDE related
+.vscode
+.idea
+
+# Project related
+build/
+dist/
+
+# Logs
+logs/
+*.log
+
+# OS related
+.DS_Store
+Thumbs.db
+
+# Output files
+*.out
+*.o
