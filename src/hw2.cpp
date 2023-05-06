@@ -2,30 +2,16 @@
 #include "Matrix.h"
 #include "Semaphore.h"
 
-#include<pthread.h>
+#include <pthread.h>
 #include <sys/fcntl.h>
 
-/**
- * @par adder1_2semaphore
- * is the semaphore to be used by the adder threads for matrices 1 and 2.
- * there should be only one adder thread for matrices 1 and 2 writing to the output matrix.
- * @par adder3_4semaphore
- * is the semaphore to be used by the adder threads for matrices 3 and 4.
- * there should be only one adder thread for matrices 3 and 4 writing to the output matrix.
- * @par rowColumnSemaphore
- * is the semaphore to be used by the multiplier threads to wait for the adder threads to finish.
- * the row and column they should work on.
- * @par multiplierSemaphore
- * is the semaphore to be used by the multiplier threads for sum matrices.
- * there should be only one multiplier thread writing to the output matrix.
- */
 sem_t *adder1_2semaphore, *adder3_4semaphore, *rowColumnSemaphore, *multiplierSemaphore;
 
-void initialiseWrittenInfoMatrices(std::vector<std::vector<bool>> &matrix1_2writtenRows,
-                                   std::vector<std::vector<bool>> &matrix3_4writtenRows,
-                                   unsigned N, unsigned M, unsigned K) {
-    matrix1_2writtenRows = std::vector<std::vector<bool>>(N, std::vector<bool>(M, false));
-    matrix3_4writtenRows = std::vector<std::vector<bool>>(M, std::vector<bool>(K, false));
+void initialiseCellInfoMatrices(CellInfoMatrix &matrix1_2writtenRows,
+                                CellInfoMatrix &matrix3_4writtenRows,
+                                unsigned N, unsigned M, unsigned K) {
+    matrix1_2writtenRows = CellInfoMatrix(N, std::vector<CellInfo>(M, UNREADY));
+    matrix3_4writtenRows = CellInfoMatrix(M, std::vector<CellInfo>(K, UNREADY));
 }
 
 int main() {
@@ -34,14 +20,7 @@ int main() {
     pthread_t *summers1_2, *summers3_4, *multipliers;
     AdderArgs *args1_2, *args3_4;
     MultiplierArgs *argsProd;
-
-    /**
-     * @par
-     *  matrix1_2writtenRows[i][j] = true if the matrices[0][i][j] + matrices[1][i][j] has been writtenInfoMatrix to sum1_2
-     * @par
-     *  matrix3_4writtenRows[i][j] = true if the matrices[2][i][j] + matrices[3][i][j] has been writtenInfoMatrix to sum3_4
-     */
-    WrittenInfoMatrix matrix1_2writtenRows, matrix3_4writtenRows;
+    CellInfoMatrix matrix1_2info, matrix3_4info;
 
     // see pdf
     unsigned N, M, K;
@@ -56,7 +35,7 @@ int main() {
     sum3_4 = Matrix(M, K, 0);
     prod = Matrix(N, K, 0);
 
-    initialiseWrittenInfoMatrices(matrix1_2writtenRows, matrix3_4writtenRows, N, M, K);
+    initialiseCellInfoMatrices(matrix1_2info, matrix3_4info, N, M, K);
 
     summers1_2 = new pthread_t[N];
     summers3_4 = new pthread_t[M];
@@ -88,30 +67,25 @@ int main() {
     }
 
     for (int i = 0; i < N; i++) {
-        args1_2[i].semaphore = adder1_2semaphore;
         args1_2[i].rowNumber = i;
         args1_2[i].inputMatrices = std::make_pair(&matrices[0], &matrices[1]);
         args1_2[i].outputMatrix = &sum1_2;
-        args1_2[i].writtenInfoMatrix = &matrix1_2writtenRows;
-        pthread_create(&summers1_2[i], NULL, addRows, (void *) &args1_2[i]);
+        args1_2[i].cellInfoMatrices = std::make_pair(&matrix1_2info, &matrix3_4info);
+        pthread_create(&summers1_2[i], NULL, addRows1_2, (void *) &args1_2[i]);
     }
 
     for (int i = 0; i < M; i++) {
-        args3_4[i].semaphore = adder3_4semaphore;
         args3_4[i].rowNumber = i;
         args3_4[i].inputMatrices = std::make_pair(&matrices[2], &matrices[3]);
         args3_4[i].outputMatrix = &sum3_4;
-        args3_4[i].writtenInfoMatrix = &matrix3_4writtenRows;
-        pthread_create(&summers3_4[i], NULL, addRows, (void *) &args3_4[i]);
+        args3_4[i].cellInfoMatrices = std::make_pair(&matrix1_2info, &matrix3_4info);
+        pthread_create(&summers3_4[i], NULL, addRows3_4, (void *) &args3_4[i]);
     }
 
     for (int i = 0; i < N; i++) {
-        argsProd[i].multiplierSemaphore = multiplierSemaphore;
-        argsProd[i].rowColumnSemaphore = rowColumnSemaphore;
-        argsProd[i].rowNumber = i;
         argsProd[i].inputMatrices = std::make_pair(&sum1_2, &sum3_4);
         argsProd[i].outputMatrix = &prod;
-        argsProd[i].writtenSumsInfoMatrices = std::make_pair(&matrix1_2writtenRows, &matrix3_4writtenRows);
+        argsProd[i].cellInfoMatrices = std::make_pair(&matrix1_2info, &matrix3_4info);
         pthread_create(&multipliers[i], NULL, multiplyRowWithColumn, (void *) &argsProd[i]);
     }
 
