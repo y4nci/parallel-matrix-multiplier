@@ -12,4 +12,4 @@ add_executable(HW2
         src/Inputs.cpp
         src/Inputs.h
         src/Matrix.cpp
-        src/Matrix.h)
+        src/Matrix.h src/Semaphore.cpp src/Semaphore.h)

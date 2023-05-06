@@ -6,6 +6,20 @@ Matrix::Matrix() {
     this->matrixValues = {};
 }
 
+Matrix::Matrix(unsigned int row, unsigned int column, int value) {
+    this->rowCount = row;
+    this->columnCount = column;
+    this->matrixValues = {};
+
+    for (int r = 0; r < row; r++) {
+        std::vector<int> rowValues;
+        for (int c = 0; c < column; c++) {
+            rowValues.push_back(value);
+        }
+        this->matrixValues.push_back(rowValues);
+    }
+}
+
 Matrix::Matrix(unsigned row, unsigned column, MatrixValues values) {
     this->rowCount = row;
     this->columnCount = column;
@@ -42,10 +56,6 @@ std::vector<int> Matrix::getColumn(unsigned column) const {
     return columnValues;
 }
 
-std::vector<int>& Matrix::operator[](unsigned index) {
-    return this->matrixValues[index];
-}
-
 void Matrix::setRowCount(unsigned row) {
     this->rowCount = row;
 }
@@ -66,4 +76,20 @@ void Matrix::setColumn(unsigned columnIndex, std::vector<int> values) {
     for (int i = 0; i < this->rowCount; i++) {
         this->matrixValues[i][columnIndex] = values[i];
     }
+}
+
+void Matrix::set(unsigned rowIndex, unsigned columnIndex, int value) {
+    this->matrixValues[rowIndex][columnIndex] = value;
+}
+
+std::vector<int>& Matrix::operator[](unsigned index) {
+    return this->matrixValues[index];
+}
+
+Matrix Matrix::operator=(const Matrix& matrix) {
+    this->rowCount = matrix.rowCount;
+    this->columnCount = matrix.columnCount;
+    this->matrixValues = matrix.matrixValues;
+
+    return *this;
 }

@@ -23,6 +23,7 @@ private:
     MatrixValues matrixValues;
 public:
     Matrix();
+    Matrix(unsigned row, unsigned column, int value);
     Matrix(unsigned row, unsigned column, MatrixValues values);
     ~Matrix();
 
@@ -32,7 +33,6 @@ public:
     MatrixValues getMatrixValues() const;
     std::vector<int> getRow(unsigned row) const;
     std::vector<int> getColumn(unsigned column) const;
-    std::vector<int>& operator[](unsigned index);
 
     // Setters
     void setRowCount(unsigned row);
@@ -40,6 +40,11 @@ public:
     void setMatrixValues(MatrixValues values);
     void setRow(unsigned rowIndex, std::vector<int> values);
     void setColumn(unsigned columnIndex, std::vector<int> values);
+    void set(unsigned rowIndex, unsigned columnIndex, int value);
+
+    // Operators
+    std::vector<int>& operator[](unsigned index);
+    Matrix operator=(const Matrix& matrix);
 };
 
 #endif

@@ -6,7 +6,7 @@
  * @brief This function gets input from stdin, parses and stores the data in the matrices array.
  */
 void getInputs(std::vector<Matrix>& matrices) {
-    for (int matrix = 0; matrix < 4; matrix++) {
+    for (int matrix = 0; matrix < MATRIX_COUNT; matrix++) {
         MatrixValues values;
         int rowCount, columnCount;
 
