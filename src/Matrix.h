@@ -30,7 +30,7 @@ public:
     // Getters
     unsigned getRowCount() const;
     unsigned getColumnCount() const;
-    MatrixValues getMatrixValues() const;
+    MatrixValues& getMatrixValues();
     std::vector<int> getRow(unsigned row) const;
     std::vector<int> getColumn(unsigned column) const;
 

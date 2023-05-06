@@ -38,7 +38,7 @@ unsigned Matrix::getColumnCount() const {
     return this->columnCount;
 }
 
-MatrixValues Matrix::getMatrixValues() const {
+MatrixValues& Matrix::getMatrixValues() {
     return this->matrixValues;
 }
 
