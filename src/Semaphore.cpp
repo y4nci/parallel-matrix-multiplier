@@ -22,7 +22,7 @@ void* addRows(void* args) {
         outputMatrix->getMatrixValues()[rowNumber][i] = row1[i] + row2[i];
 
         // output
-        hw2_write_output(semType, rowNumber, i, row1[i] + row2[i]);
+        hw2_write_output(semType, rowNumber + 1, i + 1, row1[i] + row2[i]);
 
         for (unsigned n = 0; n < N; n++)
             sem_post(semaphoreArray[rowNumber][i]);
@@ -54,7 +54,7 @@ void* multiplyRowWithColumn(void* args) {
         }
 
         // output
-        hw2_write_output(MULTIPLIER, rowNumber, k, outputMatrix->getMatrixValues()[rowNumber][k]);
+        hw2_write_output(MULTIPLIER, rowNumber + 1, k + 1, outputMatrix->getMatrixValues()[rowNumber][k]);
     }
 
     pthread_exit(NULL);
