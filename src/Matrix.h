@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include <vector>
+#include <iostream>
 
 typedef std::vector<std::vector<int>> MatrixValues;
 
@@ -43,6 +44,7 @@ public:
     void set(unsigned rowIndex, unsigned columnIndex, int value);
 
     // Operators
+    friend std::ostream & operator << (std::ostream &out, const Matrix& matrix);
     std::vector<int>& operator[](unsigned index);
     Matrix operator=(const Matrix& matrix);
 };

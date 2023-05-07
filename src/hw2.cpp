@@ -3,6 +3,7 @@
 #include "Semaphore.h"
 
 #include <pthread.h>
+#include <iostream>
 
 SemaphoreArray S1_2, S3_4;
 
@@ -73,6 +74,9 @@ int main() {
     for (unsigned i = 0; i < N; i++) {
         pthread_join(multipliers[i], NULL);
     }
+
+    // output
+    std::cout << prod;
 
     delete [] summers1_2;
     delete [] summers3_4;
