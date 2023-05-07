@@ -3,6 +3,7 @@
 
 #include "Matrix.h"
 
+#include <cstdio>
 #include <semaphore.h>
 #include <pthread.h>
 #include <sys/fcntl.h>
