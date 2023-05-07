@@ -71,7 +71,7 @@ void initialiseSemaphoreArray(char *key, SemaphoreArray& semaphoreArray, unsigne
 
             sem_unlink(semaphoreName);
 
-            semaphore = sem_open(semaphoreName, O_CREAT, 0644, 1);
+            semaphore = sem_open(semaphoreName, O_CREAT, 0644, 0);
 
             row.push_back(semaphore);
 
