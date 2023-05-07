@@ -64,11 +64,14 @@ int main() {
 
     for (unsigned i = 0; i < N; i++) {
         pthread_join(summers1_2[i], NULL);
-        pthread_join(multipliers[i], NULL);
     }
 
     for (unsigned i = 0; i < M; i++) {
         pthread_join(summers3_4[i], NULL);
+    }
+
+    for (unsigned i = 0; i < N; i++) {
+        pthread_join(multipliers[i], NULL);
     }
 
     delete [] summers1_2;

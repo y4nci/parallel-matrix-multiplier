@@ -15,9 +15,13 @@ void* addRows(void* args) {
     std::vector<int> row1 = inputMatrices.first->getRow(rowNumber);
     std::vector<int> row2 = inputMatrices.second->getRow(rowNumber);
 
+    unsigned N = inputMatrices.first->getRowCount();
+
     for (size_t i = 0; i < row1.size(); i++) {
         outputMatrix->getMatrixValues()[rowNumber][i] = row1[i] + row2[i];
-        sem_post(semaphoreArray[rowNumber][i]);
+
+        for (unsigned n = 0; n < N; n++)
+            sem_post(semaphoreArray[rowNumber][i]);
     }
 
     pthread_exit(NULL);
@@ -36,8 +40,8 @@ void* multiplyRowWithColumn(void* args) {
 
     for (unsigned k = 0; k < K; k++) {
         for (unsigned m = 0; m < M; m++) {
-            sem_wait(S1_2[rowNumber][k + m]);
-            sem_wait(S3_4[rowNumber + m][k]);
+            sem_wait(S1_2[rowNumber][m]);
+            sem_wait(S3_4[m][k]);
 
             outputMatrix->getMatrixValues()[rowNumber][k] +=
                     inputMatrices.first->getMatrixValues()[rowNumber][m] *

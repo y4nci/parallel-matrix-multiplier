@@ -23,7 +23,7 @@ typedef struct {
     /**
      * the row and column numbers of the matrices to be multiplied.
      */
-    int rowNumber;
+    unsigned rowNumber;
 
     /**
      * the matrices to be added or multiplied
@@ -48,7 +48,6 @@ void* multiplyRowWithColumn(void* args);
 
 // utils
 void initialiseSemaphoreArray(char *key, SemaphoreArray& semaphoreArray, unsigned R, unsigned C);
-
 void destroySemaphoreArray(SemaphoreArray& semaphoreArray, unsigned R, unsigned C);
 
 #endif //HW2_SEMAPHORE_H
