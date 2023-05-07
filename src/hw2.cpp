@@ -38,7 +38,7 @@ int main() {
     initialiseSemaphoreArray(S1_2key, S1_2, N, M);
     initialiseSemaphoreArray(S3_4key, S3_4, M, K);
 
-    for (int i = 0; i < N; i++) {
+    for (unsigned i = 0; i < N; i++) {
         args1_2[i].semType = ADDER1_2;
         args1_2[i].rowNumber = i;
         args1_2[i].inputMatrices = std::make_pair(&matrices[0], &matrices[1]);
@@ -46,7 +46,7 @@ int main() {
         pthread_create(&summers1_2[i], NULL, addRows, (void *) &args1_2[i]);
     }
 
-    for (int i = 0; i < M; i++) {
+    for (unsigned i = 0; i < M; i++) {
         args3_4[i].semType = ADDER3_4;
         args3_4[i].rowNumber = i;
         args3_4[i].inputMatrices = std::make_pair(&matrices[2], &matrices[3]);
@@ -54,7 +54,7 @@ int main() {
         pthread_create(&summers3_4[i], NULL, addRows, (void *) &args3_4[i]);
     }
 
-    for (int i = 0; i < N; i++) {
+    for (unsigned i = 0; i < N; i++) {
         argsProd[i].semType = MULTIPLIER;
         argsProd[i].rowNumber = i;
         argsProd[i].inputMatrices = std::make_pair(&sum1_2, &sum3_4);
@@ -62,12 +62,12 @@ int main() {
         pthread_create(&multipliers[i], NULL, multiplyRowWithColumn, (void *) &argsProd[i]);
     }
 
-    for (int i = 0; i < N; i++) {
+    for (unsigned i = 0; i < N; i++) {
         pthread_join(summers1_2[i], NULL);
         pthread_join(multipliers[i], NULL);
     }
 
-    for (int i = 0; i < M; i++) {
+    for (unsigned i = 0; i < M; i++) {
         pthread_join(summers3_4[i], NULL);
     }
 

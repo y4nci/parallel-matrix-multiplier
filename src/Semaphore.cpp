@@ -15,7 +15,7 @@ void* addRows(void* args) {
     std::vector<int> row1 = inputMatrices.first->getRow(rowNumber);
     std::vector<int> row2 = inputMatrices.second->getRow(rowNumber);
 
-    for (int i = 0; i < row1.size(); i++) {
+    for (size_t i = 0; i < row1.size(); i++) {
         outputMatrix->getMatrixValues()[rowNumber][i] = row1[i] + row2[i];
         sem_post(semaphoreArray[rowNumber][i]);
     }
@@ -34,8 +34,8 @@ void* multiplyRowWithColumn(void* args) {
         M = inputMatrices.first->getColumnCount(),
         K = inputMatrices.second->getColumnCount();
 
-    for (int k = 0; k < K; k++) {
-        for (int m = 0; m < M; m++) {
+    for (unsigned k = 0; k < K; k++) {
+        for (unsigned m = 0; m < M; m++) {
             sem_wait(S1_2[rowNumber][k + m]);
             sem_wait(S3_4[rowNumber + m][k]);
 
@@ -49,9 +49,9 @@ void* multiplyRowWithColumn(void* args) {
 }
 
 void initialiseSemaphoreArray(char *key, SemaphoreArray& semaphoreArray, unsigned R, unsigned C) {
-    for (int i = 0; i < R; i++) {
+    for (unsigned i = 0; i < R; i++) {
         std::vector<sem_t *> row;
-        for (int j = 0; j < C; j++) {
+        for (unsigned j = 0; j < C; j++) {
             char *semaphoreName = new char[32];
             sem_t *semaphore;
 
@@ -70,8 +70,8 @@ void initialiseSemaphoreArray(char *key, SemaphoreArray& semaphoreArray, unsigne
 }
 
 void destroySemaphoreArray(SemaphoreArray& semaphoreArray, unsigned R, unsigned C) {
-    for (int i = 0; i < R; i++) {
-        for (int j = 0; j < C; j++) {
+    for (unsigned i = 0; i < R; i++) {
+        for (unsigned j = 0; j < C; j++) {
             sem_close(semaphoreArray[i][j]);
         }
     }
