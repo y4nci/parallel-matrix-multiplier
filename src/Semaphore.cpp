@@ -3,6 +3,7 @@
 void* addRows(void* args) {
     SemArgs * arguments = (SemArgs *) args;
 
+    // also acts as matrix_id for hw2_write_output
     SemType semType = arguments->semType;
     int rowNumber = arguments->rowNumber;
     std::pair<Matrix*, Matrix*> inputMatrices = arguments->inputMatrices;
@@ -20,8 +21,12 @@ void* addRows(void* args) {
     for (size_t i = 0; i < row1.size(); i++) {
         outputMatrix->getMatrixValues()[rowNumber][i] = row1[i] + row2[i];
 
+        // output
+        hw2_write_output(semType, rowNumber, i, row1[i] + row2[i]);
+
         for (unsigned n = 0; n < N; n++)
             sem_post(semaphoreArray[rowNumber][i]);
+
     }
 
     pthread_exit(NULL);
@@ -47,6 +52,9 @@ void* multiplyRowWithColumn(void* args) {
                     inputMatrices.first->getMatrixValues()[rowNumber][m] *
                     inputMatrices.second->getMatrixValues()[m][k];
         }
+
+        // output
+        hw2_write_output(MULTIPLIER, rowNumber, k, outputMatrix->getMatrixValues()[rowNumber][k]);
     }
 
     pthread_exit(NULL);
@@ -63,7 +71,7 @@ void initialiseSemaphoreArray(char *key, SemaphoreArray& semaphoreArray, unsigne
 
             sem_unlink(semaphoreName);
 
-            semaphore = sem_open(semaphoreName, O_CREAT, 0644, 1);
+            semaphore = sem_open(semaphoreName, O_CREAT, 0644, 0);
 
             row.push_back(semaphore);
 

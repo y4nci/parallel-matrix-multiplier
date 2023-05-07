@@ -1,8 +1,10 @@
 #include "Inputs.h"
 #include "Matrix.h"
 #include "Semaphore.h"
+#include "hw2_output.h"
 
 #include <pthread.h>
+#include <iostream>
 
 SemaphoreArray S1_2, S3_4;
 
@@ -16,6 +18,8 @@ int main() {
     unsigned N, M, K;
 
     char S1_2key[] = "S1_2", S3_4key[] = "S3_4";
+
+    hw2_init_output();
 
     getInputs(matrices);
 
@@ -73,6 +77,9 @@ int main() {
     for (unsigned i = 0; i < N; i++) {
         pthread_join(multipliers[i], NULL);
     }
+
+    // output
+    std::cout << prod;
 
     delete [] summers1_2;
     delete [] summers3_4;

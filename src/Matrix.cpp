@@ -82,6 +82,17 @@ void Matrix::set(unsigned rowIndex, unsigned columnIndex, int value) {
     this->matrixValues[rowIndex][columnIndex] = value;
 }
 
+std::ostream & operator << (std::ostream &out, const Matrix& matrix) {
+    for (unsigned i = 0; i < matrix.rowCount; i++) {
+        for (unsigned j = 0; j < matrix.columnCount; j++) {
+            out << matrix.matrixValues[i][j] << " ";
+        }
+        out << std::endl;
+    }
+
+    return out;
+}
+
 std::vector<int>& Matrix::operator[](unsigned index) {
     return this->matrixValues[index];
 }
