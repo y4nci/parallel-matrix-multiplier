@@ -11,9 +11,9 @@ Matrix::Matrix(unsigned int row, unsigned int column, int value) {
     this->columnCount = column;
     this->matrixValues = {};
 
-    for (int r = 0; r < row; r++) {
+    for (unsigned r = 0; r < row; r++) {
         std::vector<int> rowValues;
-        for (int c = 0; c < column; c++) {
+        for (unsigned c = 0; c < column; c++) {
             rowValues.push_back(value);
         }
         this->matrixValues.push_back(rowValues);
@@ -49,7 +49,7 @@ std::vector<int> Matrix::getRow(unsigned row) const {
 std::vector<int> Matrix::getColumn(unsigned column) const {
     std::vector<int> columnValues;
 
-    for (int i = 0; i < this->rowCount; i++) {
+    for (unsigned i = 0; i < this->rowCount; i++) {
         columnValues.push_back(this->matrixValues[i][column]);
     }
 
@@ -73,7 +73,7 @@ void Matrix::setRow(unsigned rowIndex, std::vector<int> values) {
 }
 
 void Matrix::setColumn(unsigned columnIndex, std::vector<int> values) {
-    for (int i = 0; i < this->rowCount; i++) {
+    for (unsigned i = 0; i < this->rowCount; i++) {
         this->matrixValues[i][columnIndex] = values[i];
     }
 }
