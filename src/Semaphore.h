@@ -3,7 +3,8 @@
 
 #include "Matrix.h"
 
-#include <sys/semaphore.h>
+#include <semaphore.h>
+#include <pthread.h>
 
 #define ADDER_SEM_1_2 "adder_semaphore_1_2"
 #define ADDER_SEM_3_4 "adder_semaphore_3_4"
