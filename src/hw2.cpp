@@ -1,6 +1,7 @@
 #include "Inputs.h"
 #include "Matrix.h"
 #include "Semaphore.h"
+#include "hw2_output.h"
 
 #include <pthread.h>
 #include <iostream>
@@ -17,6 +18,8 @@ int main() {
     unsigned N, M, K;
 
     char S1_2key[] = "S1_2", S3_4key[] = "S3_4";
+
+    hw2_init_output();
 
     getInputs(matrices);
 

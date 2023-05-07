@@ -7,7 +7,7 @@ all: hw2
 tar: hw2.cpp Inputs.cpp Inputs.h Matrix.cpp Matrix.h hw2_output.c Semaphore.cpp Semaphore.h Makefile
 	tar -cvf hw2.tar hw2.cpp Inputs.cpp Inputs.h Matrix.cpp Matrix.h hw2_output.c Makefile
 hw2: hw2.cpp Inputs.cpp Matrix.cpp hw2_output.c Semaphore.cpp Semaphore.h
-	$(CC) $(CFLAGS) hw2.cpp Inputs.cpp Matrix.cpp Semaphore.cpp -o hw2 $(LDFLAGS)
+	$(CC) $(CFLAGS) hw2.cpp Inputs.cpp Matrix.cpp Semaphore.cpp hw2_output.c -o hw2 $(LDFLAGS)
 
 clean:
 	rm -f hw2

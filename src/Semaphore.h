@@ -2,6 +2,7 @@
 #define HW2_SEMAPHORE_H
 
 #include "Matrix.h"
+#include "hw2_output.h"
 
 #include <cstdio>
 #include <semaphore.h>
