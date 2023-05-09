@@ -16,7 +16,10 @@ void* addRows(void* args) {
     std::vector<int> row1 = inputMatrices.first->getRow(rowNumber);
     std::vector<int> row2 = inputMatrices.second->getRow(rowNumber);
 
-    unsigned N = inputMatrices.first->getRowCount();
+    unsigned N = inputMatrices.first->getRowCount()
+	, M = inputMatrices.first->getColumnCount()
+	, K = inputMatrices.second->getColumnCount()
+	, maxDim = std::max(std::max(N, M), K);
 
     for (size_t i = 0; i < row1.size(); i++) {
         outputMatrix->getMatrixValues()[rowNumber][i] = row1[i] + row2[i];
@@ -24,7 +27,7 @@ void* addRows(void* args) {
         // output
         hw2_write_output(semType, rowNumber + 1, i + 1, row1[i] + row2[i]);
 
-        for (unsigned n = 0; n < N; n++)
+        for (unsigned d = 0; d < maxDim; d++)
             sem_post(semaphoreArray[rowNumber][i]);
 
     }

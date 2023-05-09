@@ -4,6 +4,7 @@
 #include "Matrix.h"
 #include "hw2_output.h"
 
+#include <algorithm>
 #include <cstdio>
 #include <semaphore.h>
 #include <pthread.h>
