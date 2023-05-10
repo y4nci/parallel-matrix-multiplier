@@ -43,11 +43,11 @@ int main() {
     initialiseSemaphoreArray(S3_4key, S3_4, M, K);
 
     for (unsigned i = 0; i < N; i++) {
-        args1_2[i].semType = ADDER1_2;
-        args1_2[i].rowNumber = i;
-        args1_2[i].inputMatrices = std::make_pair(&matrices[0], &matrices[1]);
-        args1_2[i].outputMatrix = &sum1_2;
-        pthread_create(&summers1_2[i], NULL, addRows, (void *) &args1_2[i]);
+        argsProd[i].semType = MULTIPLIER;
+        argsProd[i].rowNumber = i;
+        argsProd[i].inputMatrices = std::make_pair(&sum1_2, &sum3_4);
+        argsProd[i].outputMatrix = &prod;
+        pthread_create(&multipliers[i], NULL, multiplyRowWithColumn, (void *) &argsProd[i]);
     }
 
     for (unsigned i = 0; i < M; i++) {
@@ -59,11 +59,11 @@ int main() {
     }
 
     for (unsigned i = 0; i < N; i++) {
-        argsProd[i].semType = MULTIPLIER;
-        argsProd[i].rowNumber = i;
-        argsProd[i].inputMatrices = std::make_pair(&sum1_2, &sum3_4);
-        argsProd[i].outputMatrix = &prod;
-        pthread_create(&multipliers[i], NULL, multiplyRowWithColumn, (void *) &argsProd[i]);
+        args1_2[i].semType = ADDER1_2;
+        args1_2[i].rowNumber = i;
+        args1_2[i].inputMatrices = std::make_pair(&matrices[0], &matrices[1]);
+        args1_2[i].outputMatrix = &sum1_2;
+        pthread_create(&summers1_2[i], NULL, addRows, (void *) &args1_2[i]);
     }
 
     for (unsigned i = 0; i < N; i++) {

@@ -24,12 +24,10 @@ void* addRows(void* args) {
     for (size_t i = 0; i < row1.size(); i++) {
         outputMatrix->getMatrixValues()[rowNumber][i] = row1[i] + row2[i];
 
+        sem_post(semaphoreArray[rowNumber][i]);
+
         // output
         hw2_write_output(semType, rowNumber + 1, i + 1, row1[i] + row2[i]);
-
-        for (unsigned d = 0; d < maxDim; d++)
-            sem_post(semaphoreArray[rowNumber][i]);
-
     }
 
     pthread_exit(NULL);
@@ -48,12 +46,15 @@ void* multiplyRowWithColumn(void* args) {
 
     for (unsigned k = 0; k < K; k++) {
         for (unsigned m = 0; m < M; m++) {
-            sem_wait(S1_2[rowNumber][m]);
-            sem_wait(S3_4[m][k]);
+            sem_wait(S1_2[rowNumber][m]);   // access K times
+            sem_wait(S3_4[m][k]);           // access rowNumber (N) times
 
             outputMatrix->getMatrixValues()[rowNumber][k] +=
                     inputMatrices.first->getMatrixValues()[rowNumber][m] *
                     inputMatrices.second->getMatrixValues()[m][k];
+
+            sem_post(S3_4[m][k]);           // access rowNumber (N) times
+            sem_post(S1_2[rowNumber][m]);   // access K times
         }
 
         // output
