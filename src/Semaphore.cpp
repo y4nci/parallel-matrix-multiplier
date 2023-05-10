@@ -49,12 +49,17 @@ void* multiplyRowWithColumn(void* args) {
             sem_wait(S1_2[rowNumber][m]);   // access K times
             sem_wait(S3_4[m][k]);           // access rowNumber (N) times
 
+            sem_post(S3_4[m][k]);           // access rowNumber (N) times
+            sem_post(S1_2[rowNumber][m]);   // access K times
+        }
+    }
+
+
+    for (unsigned k = 0; k < K; k++) {
+        for (unsigned m = 0; m < M; m++) {
             outputMatrix->getMatrixValues()[rowNumber][k] +=
                     inputMatrices.first->getMatrixValues()[rowNumber][m] *
                     inputMatrices.second->getMatrixValues()[m][k];
-
-            sem_post(S3_4[m][k]);           // access rowNumber (N) times
-            sem_post(S1_2[rowNumber][m]);   // access K times
         }
 
         // output
